@@ -13,7 +13,7 @@
 package frc.robot;
 
 import frc.robot.commands.*;
-import frc.robot.devices.SwerveAssembly;
+import frc.robot.devices.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.devices.*;
 
 import java.util.HashMap;
 
@@ -44,7 +43,7 @@ public class RobotContainer {
   private ClawController m_ClawController;
   private ClawControllerCommand m_CCC;
   private ArmSubsystem m_Arm;
-  private ArmController m_Controller;
+  private ArmController m_ArmController;
   private ArmControllerCommand m_ACC;
   private SwingArmMotor m_SwingArmMotor;
   private SwerveAssembly frontLeft;
@@ -65,15 +64,15 @@ public class RobotContainer {
 
         m_SwingArmMotor = new SwingArmMotor(14);
         m_Arm = new ArmSubsystem(m_SwingArmMotor);
-        m_Controller = new ArmController();
-        m_ACC = new ArmControllerCommand(m_Controller, m_Arm);
-        m_Controller.setDefaultCommand(m_ACC);
-        m_Arm.setDefaultCommand(m_ACC);
+        m_ArmController = new ArmController();
+        m_ACC = new ArmControllerCommand(m_ArmController, m_Arm);
+        m_ArmController.setDefaultCommand(m_ACC);
+        //m_Arm.setDefaultCommand(m_ACC);
 
         m_Servo = new ServoSys();
         m_ClawController = new ClawController();
         m_CCC = new ClawControllerCommand(m_ClawController, m_Servo);
-        m_Controller.setDefaultCommand(m_CCC);
+        m_ClawController.setDefaultCommand(m_CCC);
         m_Servo.intialize();
 
         SmartDashboard.setDefaultNumber("Velocity: config_kP", .2);

@@ -16,7 +16,8 @@ public class ClawControllerCommand extends CommandBase {
   public ClawControllerCommand(ClawController c, ServoSys s) {
     myController = c;
     mySys = s;
-    addRequirements(c);
+    addRequirements(myController);
+    addRequirements(mySys);
   }
 
   // Called when the command is initially scheduled.
