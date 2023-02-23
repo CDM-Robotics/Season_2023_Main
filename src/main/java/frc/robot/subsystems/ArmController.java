@@ -8,7 +8,7 @@ public class ArmController extends SubsystemBase {
     private XboxController xbox;
 
     public ArmController() {
-        xbox = new XboxController(0);
+        xbox = new XboxController(1);
     }
 
     public ArmEnum getCurrentVelocity() 

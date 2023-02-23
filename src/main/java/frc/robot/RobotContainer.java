@@ -40,9 +40,12 @@ public class RobotContainer {
 
   private static RobotContainer m_robotContainer = new RobotContainer();
 
+  private ServoSys m_Servo;
+  private ClawController m_ClawController;
+  private ClawControllerCommand m_CCC;
   private ArmSubsystem m_Arm;
   private ArmController m_Controller;
-  private ControllerCommand m_CC;
+  private ArmControllerCommand m_ACC;
   private SwingArmMotor m_SwingArmMotor;
   private SwerveAssembly frontLeft;
   private SwerveAssembly frontRight;
@@ -63,9 +66,15 @@ public class RobotContainer {
         m_SwingArmMotor = new SwingArmMotor(14);
         m_Arm = new ArmSubsystem(m_SwingArmMotor);
         m_Controller = new ArmController();
-        m_CC = new ControllerCommand(m_Controller, m_Arm);
-        m_Controller.setDefaultCommand(m_CC);
-        m_Arm.setDefaultCommand(m_CC);
+        m_ACC = new ArmControllerCommand(m_Controller, m_Arm);
+        m_Controller.setDefaultCommand(m_ACC);
+        m_Arm.setDefaultCommand(m_ACC);
+
+        m_Servo = new ServoSys();
+        m_ClawController = new ClawController();
+        m_CCC = new ClawControllerCommand(m_ClawController, m_Servo);
+        m_Controller.setDefaultCommand(m_CCC);
+        m_Servo.intialize();
 
         SmartDashboard.setDefaultNumber("Velocity: config_kP", .2);
         SmartDashboard.setDefaultNumber("Velocity: config_kI", 0.001);
