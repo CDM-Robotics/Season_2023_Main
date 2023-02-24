@@ -68,19 +68,19 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void setRotation(double rotation) {
-        double pureRotationSpeed = 0.2;
+        double pureRotationSpeed = 0.3;
 
         SwerveAssembly fl = m_assemblies.get("FrontLeft");
         SwerveAssembly fr = m_assemblies.get("FrontRight");
         SwerveAssembly rl = m_assemblies.get("RearLeft");
         SwerveAssembly rr = m_assemblies.get("RearRight");
 
-        if(rotation > -0.05) {  // Counter clockwise
+        if(rotation > 0.05) {  // Counter clockwise
             fl.setState(new SwerveState(-135.0, pureRotationSpeed));
             fr.setState(new SwerveState(-45.0, pureRotationSpeed));
             rl.setState(new SwerveState(135.0, pureRotationSpeed));
             rr.setState(new SwerveState(45.0, pureRotationSpeed));
-        } else if(rotation < 0.05) { // Clockwise
+        } else if(rotation < -0.05) { // Clockwise
             fl.setState(new SwerveState(45.0, pureRotationSpeed));
             fr.setState(new SwerveState(135.0, pureRotationSpeed));
             rl.setState(new SwerveState(-45.0, pureRotationSpeed));
