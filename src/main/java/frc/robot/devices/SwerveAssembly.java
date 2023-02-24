@@ -13,10 +13,10 @@ import frc.robot.exceptions.MotorSetupException;
 public class SwerveAssembly {
 
     public final double STEERING_RATIO = 150.0 / 7.1;
-    //public final double DRIVE_RATIO = 6.75;
+    public final double DRIVE_RATIO = 6.75;
     int encoderCtr;
     //public final double STEERING_RATIO = 1.0;
-    public final double DRIVE_RATIO = 1.0;
+    //public final double DRIVE_RATIO = 1.0;
 
     private SteeringMotor m_steeringMotor;
     private DriveMotor m_driveMotor;
