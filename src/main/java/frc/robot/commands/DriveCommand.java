@@ -65,7 +65,7 @@ public class DriveCommand extends CommandBase {
       //     }
       
       if(m_dc.allowedToRotate()) {
-        m_driveSubsystem.setRotation(m_dc.getRotation());
+        m_driveSubsystem.setRotation(m_dc.getRotation(), 0.3 * m_dc.getSpeedModifier());
       } else {
         m_driveSubsystem.setDesiredSwerveState(simMovement);
       }

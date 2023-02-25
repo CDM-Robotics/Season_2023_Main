@@ -22,8 +22,10 @@ public class DriveController extends SubsystemBase {
     public void periodic() {
         double x, y, mag;
 
-        if(xbox.getRightBumperPressed()) {
+        if(xbox.getRightBumper()) {
             speedModifier = 0.25;
+        } else if (xbox.getLeftBumper()) {
+            speedModifier = 1.25;
         } else {
             speedModifier = 1.0;
         }
@@ -57,7 +59,7 @@ public class DriveController extends SubsystemBase {
             desiredThrottle = 0.0;
             // For now, only allow rotations when the desired throttle is zero
             if(!wantToRotate) {
-                desiredAngle = 0.0;
+                //desiredAngle = 0.0;
                 return;
             } else {
                 // Allow a pure rotation
