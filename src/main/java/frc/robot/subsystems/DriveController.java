@@ -11,14 +11,22 @@ public class DriveController extends SubsystemBase {
     private double desiredThrottle;
     private double rotation;
     private boolean wantToRotate;
+    private double speedModifier;
 
     public DriveController() {
         xbox = new XboxController(0);
+        speedModifier = 1.0;
     }
 
     @Override
     public void periodic() {
         double x, y, mag;
+
+        if(xbox.getRightBumperPressed()) {
+            speedModifier = 0.25;
+        } else {
+            speedModifier = 1.0;
+        }
 
         x = xbox.getLeftX();  // +/- 1.0
         y = -xbox.getLeftY(); // +/- 1.0  Forward is negative, go figure  
@@ -84,6 +92,10 @@ public class DriveController extends SubsystemBase {
 
     public double getRotation() {
         return rotation;
+    }
+
+    public double getSpeedModifier() {
+        return speedModifier;
     }
     
 }

@@ -56,7 +56,7 @@ public class DriveCommand extends CommandBase {
             //i = i - 45;
             //if(i < -180) i = -180 - (-180 - i);
             angle = m_dc.getDesiredAngle();
-            throttle = m_dc.getDesiredThrottle() * 0.3;
+            throttle = m_dc.getDesiredThrottle() * 0.3 * m_dc.getSpeedModifier();
             SmartDashboard.putNumber("DesiredThrottle", throttle);
             //throttle = 0.1;
             simMovement = new SwerveState(angle, throttle);
