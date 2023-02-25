@@ -22,6 +22,7 @@ public class DriveCommand extends CommandBase {
   private SwerveState simMovement;
   private int simControl;
   private int i;
+  
 
   /** Creates a new DriveCommand. */
   public DriveCommand(DriveController dc, DriveSubsystem driveSubsystem) {
