@@ -73,12 +73,12 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveAssembly rl = m_assemblies.get("RearLeft");
         SwerveAssembly rr = m_assemblies.get("RearRight");
 
-        if(rotation > 0.05) {  // Counter clockwise
+        if(rotation < -0.05) {  // Counter clockwise
             fl.setState(new SwerveState(-135.0, rotationSpeed));
             fr.setState(new SwerveState(-45.0, rotationSpeed));
             rl.setState(new SwerveState(135.0, rotationSpeed));
             rr.setState(new SwerveState(45.0, rotationSpeed));
-        } else if(rotation < -0.05) { // Clockwise
+        } else if(rotation > 0.05) { // Clockwise
             fl.setState(new SwerveState(45.0, rotationSpeed));
             fr.setState(new SwerveState(135.0, rotationSpeed));
             rl.setState(new SwerveState(-45.0, rotationSpeed));

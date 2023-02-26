@@ -74,7 +74,7 @@ public class DriveController extends SubsystemBase {
         desiredThrottle = desiredThrottle * Constants.MAX_VELOCITY;
 
         // Math.acos only returns positive values from 0 to pi
-        desiredAngle = Math.acos(y) / Math.PI * 180.0;  // The hypotenuse = 1 for unit circle
+        desiredAngle = Math.acos(y / mag) / Math.PI * 180.0;  // The hypotenuse = 1 for unit circle
         if(x < 0.0) {
             desiredAngle = -desiredAngle;
         }
