@@ -99,8 +99,9 @@ public class SteeringMotor extends TalonFX {
         double wB;
         double change;
         Faults faults;
+        double offsetDegrees;
 
-        //degrees = degrees + m_offset;
+        offsetDegrees = degrees - m_offset;
 
         faults = new Faults();
 

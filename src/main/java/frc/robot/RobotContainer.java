@@ -83,10 +83,10 @@ public class RobotContainer {
         SmartDashboard.setDefaultNumber("STAT", 0.0);
 
         // Define the 4 Swerve Assemblies
-        rearRight = new SwerveAssembly("Rear Right", 18, false, 17, false, 26,119.1);
-        rearLeft = new SwerveAssembly("Rear Left", 20, false, 19, false, 25, 77.25);
-        frontRight = new SwerveAssembly("Front Right", 13, false, 15, false, 23, -131.3);
-        frontLeft = new SwerveAssembly("Front Left", 22, false, 21, false, 24, 8.79);
+        rearRight = new SwerveAssembly("Rear Right", 18, false, 17, false, 26,-60.9);
+        rearLeft = new SwerveAssembly("Rear Left", 20, false, 19, false, 25, -102.75);
+        frontRight = new SwerveAssembly("Front Right", 13, false, 15, false, 23, 48.7);
+        frontLeft = new SwerveAssembly("Front Left", 22, false, 21, false, 24, -171.21);
         
         
         swerves = new HashMap<String, SwerveAssembly>();

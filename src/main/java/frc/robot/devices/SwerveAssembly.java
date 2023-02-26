@@ -45,9 +45,13 @@ public class SwerveAssembly {
     }
 
     public void initialize() throws MotorSetupException {
+        double absolutePos;
         m_driveEncoder.initialize();
         m_steeringMotor.initialize();
         m_driveMotor.initialize();
+        absolutePos = m_driveEncoder.getAbsolutePosition();
+        SmartDashboard.putNumber("Initial Offset " + m_prettyName, absolutePos);
+        m_steeringMotor.setOffset(absolutePos);
         m_steeringMotor.setAngle(0.0);
         m_driveMotor.setVelocity(0.0);
     }
