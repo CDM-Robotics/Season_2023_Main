@@ -17,7 +17,6 @@ public class ArmControllerCommand extends CommandBase {
       m_ac = ac;
       m_as = as;
 
-      addRequirements(m_as);
       addRequirements(m_ac);
     }
   

@@ -45,6 +45,8 @@ public class RobotContainer {
   private ArmSubsystem m_Arm;
   private ArmController m_ArmController;
   private ArmControllerCommand m_ACC;
+  private ArmCommand m_AC;
+  private ArmEncoder m_ae;
   private SwingArmMotor m_SwingArmMotor;
   private SwerveAssembly frontLeft;
   private SwerveAssembly frontRight;
@@ -63,11 +65,13 @@ public class RobotContainer {
     configureButtonBindings();
 
         m_SwingArmMotor = new SwingArmMotor(14);
-        m_Arm = new ArmSubsystem(m_SwingArmMotor);
+        m_ae = new ArmEncoder(27, 0);
         m_ArmController = new ArmController();
+        m_Arm = new ArmSubsystem(m_SwingArmMotor, m_ae);
         m_ACC = new ArmControllerCommand(m_ArmController, m_Arm);
         m_ArmController.setDefaultCommand(m_ACC);
-        //m_Arm.setDefaultCommand(m_ACC);
+        m_AC = new ArmCommand(m_Arm);
+        m_Arm.setDefaultCommand(m_AC);
 
         m_Servo = new ServoSys();
         m_ClawController = new ClawController();

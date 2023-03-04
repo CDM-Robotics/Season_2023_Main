@@ -7,31 +7,38 @@ package frc.robot.subsystems;
 //import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ArmEnum;
+import frc.robot.commands.ArmCommand;
+import frc.robot.devices.ArmEncoder;
 import frc.robot.devices.SwingArmMotor;
 
 public class ArmSubsystem extends SubsystemBase{
     private SwingArmMotor m_SwingArmMotor;
+	public ArmEncoder m_ArmEncoder;
 	
-    public ArmSubsystem(SwingArmMotor SwingAM) 
+    public ArmSubsystem(SwingArmMotor SwingAM, ArmEncoder ae) 
     {
         m_SwingArmMotor = SwingAM;
+		m_ArmEncoder = ae;
     }
 	
     public void setNewVelocity(ArmEnum newVelocity)
 	{
 		if (newVelocity == ArmEnum.PICKUP) 
 		{
-			//m_SwingArmMotor.setVelocity(0);
-			m_SwingArmMotor.increasePosition();
+			if (m_ArmEncoder.getPos() >= 5.0) 
+			{
+				m_SwingArmMotor.increasePosition();
+			}
 		}
-		if (newVelocity == ArmEnum.STOP) 
-		{
-			//m_SwingArmMotor.setVelocity(0);
-		}
+
+		if (newVelocity == ArmEnum.STOP) {}
+		
 		if (newVelocity == ArmEnum.STOW) 
 		{
-			//m_SwingArmMotor.setVelocity(0);
-			m_SwingArmMotor.decreasePosition();
+			if (m_ArmEncoder.getPos() <= 300.0) 
+			{
+				m_SwingArmMotor.decreasePosition();
+			}
 		}
 	}    
 }
