@@ -87,4 +87,8 @@ public class DriveSubsystem extends SubsystemBase {
             setDesiredSwerveState(new SwerveState(0.0, 0.0));
         }
     }
+    public boolean autoOnline() 
+    {
+        return true;
+    }
 }

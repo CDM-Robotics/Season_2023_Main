@@ -39,7 +39,7 @@ public class RobotContainer {
 
   private static RobotContainer m_robotContainer = new RobotContainer();
 
-  private ServoSys m_Servo;
+  public ServoSys m_Servo;
   private ClawController m_ClawController;
   private ClawControllerCommand m_CCC;
   private ArmSubsystem m_Arm;
@@ -52,7 +52,7 @@ public class RobotContainer {
   private SwerveAssembly frontRight;
   private SwerveAssembly rearLeft;
   private SwerveAssembly rearRight;
-  private DriveController m_DriveController;
+  public DriveController m_DriveController;
   private DriveSubsystem m_DriveSubsystem;
   private DrivePhysics m_DrivePhysics;
   private UpdateSwerveStateCommand m_updateSwerveCommand;
@@ -64,7 +64,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-        m_SwingArmMotor = new SwingArmMotor(14);
+        m_SwingArmMotor = new SwingArmMotor(14 /*, m_ArmController*/);
         m_ae = new ArmEncoder(27, 0);
         m_ArmController = new ArmController();
         m_Arm = new ArmSubsystem(m_SwingArmMotor, m_ae);
@@ -147,6 +147,5 @@ public class RobotContainer {
   public Boolean initializeDriveSubsystem() {
     return m_DriveSubsystem.initialize();
   }
-  
 }
 

@@ -11,13 +11,25 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.exceptions.SwingMotorException;
+//import frc.robot.subsystems.ArmController;
 
 public class SwingArmMotor extends TalonFX {
     private double m_position;
+    //private static ArmController armC;
+    
+    private static SwingArmMotor sam;
 
-    public SwingArmMotor(int canID) 
+    public static SwingArmMotor getInstance() {
+        if (sam == null) {
+            sam = new SwingArmMotor(14 /*, armC*/);
+        }
+        return sam;
+    }
+
+    public SwingArmMotor(int canID /*, ArmController ac*/) 
     {
         super(canID);
+        //armC = ac;
     }
 
     public void initialize() throws SwingMotorException {
@@ -73,14 +85,28 @@ public class SwingArmMotor extends TalonFX {
 
     public void increasePosition() 
     {
-        m_position += 300;
+        m_position += 400 /*+ armC.speedModifier()*/;
         SmartDashboard.putNumber("ArmPosition", m_position);
         super.set(TalonFXControlMode.Position, m_position);
     }
 
     public void decreasePosition() 
     {
-        m_position -= 300;
+        m_position -= 400 /*+ armC.speedModifier()*/;
+        SmartDashboard.putNumber("ArmPosition", m_position);
+        super.set(TalonFXControlMode.Position, m_position);
+    }
+
+    public void autoPosition() 
+    {
+        m_position += 96000;
+        SmartDashboard.putNumber("ArmPosition", m_position);
+        super.set(TalonFXControlMode.Position, m_position);
+    }
+
+    public void teleopReturn() 
+    {
+        m_position = 0;
         SmartDashboard.putNumber("ArmPosition", m_position);
         super.set(TalonFXControlMode.Position, m_position);
     }

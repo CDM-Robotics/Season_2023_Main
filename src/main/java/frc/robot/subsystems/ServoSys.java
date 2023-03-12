@@ -3,17 +3,19 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ServoEnum;
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ServoSys extends SubsystemBase
 {
 	private PWM testPWM;
     
-    public ServoSys() {}
+    public ServoSys() {
+		testPWM = new PWM(0);
+	}
 
 	public Boolean intialize() 
 	{
-		testPWM = new PWM(0);
 		return true;
 	} 
 
@@ -32,5 +34,5 @@ public class ServoSys extends SubsystemBase
 			testPWM.setBounds(2.50, 0.004, 2.475, 0.004, 2.45);
 		}
 		testPWM.setPosition(1);
-	}    
+	}   
 }

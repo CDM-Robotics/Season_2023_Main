@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class DriveController extends SubsystemBase {
@@ -25,9 +26,9 @@ public class DriveController extends SubsystemBase {
         if(xbox.getRightBumper()) {
             speedModifier = 0.25;
         } else if (xbox.getLeftBumper()) {
-            speedModifier = 1.25;
+            speedModifier = 2.25;
         } else {
-            speedModifier = 1.0;
+            speedModifier = 1.50;
         }
 
         x = xbox.getLeftX();  // +/- 1.0
@@ -81,7 +82,11 @@ public class DriveController extends SubsystemBase {
     }
 
     public double getDesiredThrottle() {
-        return desiredThrottle;
+        if (!DriverStation.isAutonomous()) 
+        {
+            return desiredThrottle;
+        }
+        return 0.0;
     }
 
     public double getDesiredAngle() {
@@ -99,5 +104,4 @@ public class DriveController extends SubsystemBase {
     public double getSpeedModifier() {
         return speedModifier;
     }
-    
 }

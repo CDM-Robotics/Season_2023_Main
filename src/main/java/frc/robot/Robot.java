@@ -14,11 +14,17 @@ package frc.robot;
 
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
+
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.platform.can.AutocacheState;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.devices.SwingArmMotor;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,8 +36,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 
     private Command m_autonomousCommand;
-
     private RobotContainer m_robotContainer;
+    private int autoCount;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -44,6 +50,8 @@ public class Robot extends TimedRobot {
         m_robotContainer = RobotContainer.getInstance();
         //m_robotContainer.initializeMotorSubsystem();
         m_robotContainer.initializeDriveSubsystem();
+        autoCount = 0;
+        SwingArmMotor.getInstance();
         
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
     }
@@ -93,7 +101,38 @@ public class Robot extends TimedRobot {
     * This function is called periodically during autonomous.
     */
     @Override
-    public void autonomousPeriodic() {
+    public void autonomousPeriodic() 
+    {
+        /* */
+        int returnCount = 400;
+        int closeTime = 100;
+        autoCount++;
+
+        SmartDashboard.putNumber("Auto Counter", autoCount);
+        if (autoCount == 1) 
+        {
+            SwingArmMotor.getInstance().autoPosition();
+        }
+        if (autoCount >= 300 && autoCount <= returnCount) 
+        {
+            m_robotContainer.m_Servo.setNewPosition(ServoEnum.OPEN);
+        }
+        if (autoCount == returnCount + 25) 
+        {
+            SwingArmMotor.getInstance().teleopReturn();
+            //Add Later:
+            //Enter position control of the Drive Motor   
+        }
+        if (autoCount >= returnCount + 25 && autoCount <= returnCount + closeTime) 
+        {
+            m_robotContainer.m_Servo.setNewPosition(ServoEnum.CLOSE);
+            
+        }
+        if (autoCount > returnCount + closeTime)
+        {
+            m_robotContainer.m_Servo.setNewPosition(ServoEnum.STOP);
+        }
+        /* */
     }
 
     @Override
@@ -105,6 +144,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        SwingArmMotor.getInstance().teleopReturn();
     }
 
     /**
