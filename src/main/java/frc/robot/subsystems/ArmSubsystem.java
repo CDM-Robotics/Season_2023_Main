@@ -31,7 +31,10 @@ public class ArmSubsystem extends SubsystemBase{
 			}
 		}
 
-		if (newVelocity == ArmEnum.STOP) {}
+		if (newVelocity == ArmEnum.STORE) 
+		{
+			m_SwingArmMotor.storedPreset();
+		}
 		
 		if (newVelocity == ArmEnum.STOW) 
 		{

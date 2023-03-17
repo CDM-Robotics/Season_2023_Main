@@ -21,6 +21,10 @@ public class ArmController extends SubsystemBase {
         {
             return ArmEnum.STOW;
         }
+        if (xbox.getYButton()) 
+        {
+            return ArmEnum.STORE;
+        }
         return ArmEnum.STOP;
     }
 

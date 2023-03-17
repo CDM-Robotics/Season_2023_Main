@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.devices.SwingArmMotor;
+//import frc.robot.subsystems.MotorSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -52,6 +53,7 @@ public class Robot extends TimedRobot {
         m_robotContainer.initializeDriveSubsystem();
         autoCount = 0;
         SwingArmMotor.getInstance();
+        //MotorSubsystem.getInstance();
         
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
     }
@@ -120,8 +122,10 @@ public class Robot extends TimedRobot {
         if (autoCount == returnCount + 25) 
         {
             SwingArmMotor.getInstance().teleopReturn();
-            //Add Later:
-            //Enter position control of the Drive Motor   
+            //Enter position control of the Drive Motor:
+            //MotorSubsystem.getInstance().driveToStep(0); // Modification
+            
+            
         }
         if (autoCount >= returnCount + 25 && autoCount <= returnCount + closeTime) 
         {
@@ -131,6 +135,8 @@ public class Robot extends TimedRobot {
         if (autoCount > returnCount + closeTime)
         {
             m_robotContainer.m_Servo.setNewPosition(ServoEnum.STOP);
+            // Cancel position control of the Drive Motor
+            //MotorSubsystem.getInstance().driveToStep(0); // Modification
         }
         /* */
     }

@@ -2,6 +2,7 @@ package frc.robot;
 
 public enum ArmEnum 
 {
+    STORE(3),
     PICKUP(2),
     STOP(1),
     STOW(0);
