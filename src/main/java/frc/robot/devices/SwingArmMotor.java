@@ -119,7 +119,7 @@ public class SwingArmMotor extends TalonFX {
     } 
     public void fastDecrease() 
     {
-        m_position += 400;
+        m_position -= 400;
         SmartDashboard.putNumber("ArmPosition", m_position);
         super.set(TalonFXControlMode.Position, m_position);
     }
