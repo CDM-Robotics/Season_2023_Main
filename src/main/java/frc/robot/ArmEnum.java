@@ -2,9 +2,10 @@ package frc.robot;
 
 public enum ArmEnum 
 {
-    STORE(3),
-    PICKUP(2),
-    STOP(1),
+    FASTPICKUP(4),
+    PICKUP(3),
+    STOP(2),
+    FASTSTOW(1),
     STOW(0);
 
     private final int value;

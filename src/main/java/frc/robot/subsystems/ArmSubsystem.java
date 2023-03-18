@@ -31,9 +31,14 @@ public class ArmSubsystem extends SubsystemBase{
 			}
 		}
 
-		if (newVelocity == ArmEnum.STORE) 
+		if (newVelocity == ArmEnum.FASTPICKUP) 
 		{
-			m_SwingArmMotor.storedPreset();
+			m_SwingArmMotor.fastIncrease();
+		}
+
+		if(newVelocity == ArmEnum.FASTSTOW) 
+		{
+			m_SwingArmMotor.fastDecrease();
 		}
 		
 		if (newVelocity == ArmEnum.STOW) 
