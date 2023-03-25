@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -48,6 +49,9 @@ public class DriveCommand extends CommandBase {
     long currTime;
     Date d = new Date();
     currTime = d.getTime();
+    if (DriverStation.isAutonomous()) {
+      return;
+    }
     if((currTime - m_lastUpdate) >= MOTOR_UPDATE_FREQUENCY) {
       //SmartDashboard.putNumber("momentum estimate",m_driveSubsystem.m_physics.totalLinearMomentum);
       //  if(((m_driveSubsystem.m_physics.getCurrentSwerveState().velocity > 0.95 * m_dc.getDesiredThrottle()) && 

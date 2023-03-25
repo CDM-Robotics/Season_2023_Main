@@ -46,14 +46,14 @@ public class RobotContainer {
   private ArmController m_ArmController;
   private ArmControllerCommand m_ACC;
   private ArmCommand m_AC;
-  private ArmEncoder m_ae;
+  public ArmEncoder m_ae;
   private SwingArmMotor m_SwingArmMotor;
   private SwerveAssembly frontLeft;
   private SwerveAssembly frontRight;
   private SwerveAssembly rearLeft;
   private SwerveAssembly rearRight;
-  public DriveController m_DriveController;
-  private DriveSubsystem m_DriveSubsystem;
+  private DriveController m_DriveController;
+  public DriveSubsystem m_DriveSubsystem;
   private DrivePhysics m_DrivePhysics;
   private UpdateSwerveStateCommand m_updateSwerveCommand;
   private DriveCommand m_DriveCommand;
@@ -145,7 +145,13 @@ public class RobotContainer {
   }
 
   public Boolean initializeDriveSubsystem() {
-    return m_DriveSubsystem.initialize();
+    //return m_DriveSubsystem.initialize();
+    m_DriveSubsystem.setTeleOp();
+    return true;
+  }
+  public Boolean initalizeAutoDriveSys() {
+    m_DriveSubsystem.setAuto();
+    return true;
   }
 }
 

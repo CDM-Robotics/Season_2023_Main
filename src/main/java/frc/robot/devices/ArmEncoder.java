@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ArmEncoder extends CANCoder {    
     private int myID;
     private int m_offset;
-    private double m_pos;
-    
+    public double m_pos;
+
     public ArmEncoder(int canID, int offset) {
         super(canID);
         myID = canID;

@@ -14,6 +14,7 @@ import frc.robot.exceptions.MotorSetupException;
 import edu.wpi.first.networktables.NetworkTableInstance.NetworkMode;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.DriveModeEnum;
 
 /** Add your docs here. */
 public class DriveMotor extends TalonFX {
@@ -34,7 +35,7 @@ public class DriveMotor extends TalonFX {
         m_sim = simulate;
     }
 
-    public void initialize() throws MotorSetupException {
+    public void initialize(DriveModeEnum mode) throws MotorSetupException {
         String errorMsg = "(CAN ID: " + this.getDeviceID() + ") ";
         
         if(m_sim) return;
@@ -63,20 +64,35 @@ public class DriveMotor extends TalonFX {
         if(ErrorCode.OK != configAllowableClosedloopError(0, 0, 30)) {
             throw new MotorSetupException(errorMsg + "Could not set closed loop error");
         }
-        if(ErrorCode.OK != config_kF(0, 1023.0/20660.0, 30)) {
-            throw new MotorSetupException(errorMsg + "Could not set kF");
-        }
         
-        if(ErrorCode.OK != config_kP(0, SmartDashboard.getNumber("Velocity: config_kP", .1), 30)) {
-            throw new MotorSetupException(errorMsg + "Could not set kP");
+        if (mode == DriveModeEnum.VELOCITY) 
+        {
+            if(ErrorCode.OK != config_kF(0, 1023.0/20660.0, 30)) {
+                throw new MotorSetupException(errorMsg + "Could not set kF");
+            }
+            if(ErrorCode.OK != config_kP(0, SmartDashboard.getNumber("Velocity: config_kP", .1), 30)) {
+                throw new MotorSetupException(errorMsg + "Could not set kP");
+            }
+            if(ErrorCode.OK != config_kI(0, SmartDashboard.getNumber("Velocity: config_kI", .001), 30)) {
+                throw new MotorSetupException(errorMsg + "Could not set kI");
+            }
+            if(ErrorCode.OK != config_kD(0, SmartDashboard.getNumber("Velocity: config_kD", 5), 30)) {
+                throw new MotorSetupException(errorMsg + "Could not set kP");
+            }  
+        } else {
+            if(ErrorCode.OK != config_kF(0, 1023.0/20660.0, 30)) {
+                throw new MotorSetupException(errorMsg + "Could not set kF");
+            }
+            if(ErrorCode.OK != config_kP(0, .1, 30)) {
+                throw new MotorSetupException(errorMsg + "Could not set kP");
+            }
+            if(ErrorCode.OK != config_kI(0, 0.001, 30)) {
+                throw new MotorSetupException(errorMsg + "Could not set kI");
+            }
+            if(ErrorCode.OK != config_kD(0, 5, 30)) {
+                throw new MotorSetupException(errorMsg + "Could not set kP");
+            }
         }
-        if(ErrorCode.OK != config_kI(0, SmartDashboard.getNumber("Velocity: config_kI", .001), 30)) {
-            throw new MotorSetupException(errorMsg + "Could not set kI");
-        }
-        if(ErrorCode.OK != config_kD(0, SmartDashboard.getNumber("Velocity: config_kD", 5), 30)) {
-            throw new MotorSetupException(errorMsg + "Could not set kP");
-        }  
-
         configClosedloopRamp(0.02);
         setNeutralMode(NeutralMode.Brake);
         //setNeutralMode(NeutralMode.Coast);
@@ -102,6 +118,10 @@ public class DriveMotor extends TalonFX {
             SmartDashboard.putNumber("Motor2 Set Velocity", gearedPer100ms * UNITS_PER_REV);
             super.set(TalonFXControlMode.Velocity, gearedPer100ms * UNITS_PER_REV);
         }
+    }
+
+    public void setPosition(int revolutions) {
+        //super.set(TalonFXControlMode.Velocity, revolutions * UNITS_PER_REV);
     }
 
     public double getVelocity() {

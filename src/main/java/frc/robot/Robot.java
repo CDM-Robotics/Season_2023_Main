@@ -24,6 +24,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.devices.ArmEncoder;
+import frc.robot.devices.SwerveState;
 import frc.robot.devices.SwingArmMotor;
 //import frc.robot.subsystems.MotorSubsystem;
 
@@ -50,10 +52,9 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
         //m_robotContainer.initializeMotorSubsystem();
-        m_robotContainer.initializeDriveSubsystem();
+        //m_robotContainer.initializeDriveSubsystem();
         autoCount = 0;
         SwingArmMotor.getInstance();
-        //MotorSubsystem.getInstance();
         
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
     }
@@ -97,6 +98,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
+        m_robotContainer.initalizeAutoDriveSys();
     }
 
     /**
@@ -106,37 +108,47 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() 
     {
         /* */
-        int returnCount = 400;
-        int closeTime = 100;
+        int returnCount = 300;
+        int closeTime = 150;
+        int moveCount = 301;
+        int stopCount = 685;
         autoCount++;
 
         SmartDashboard.putNumber("Auto Counter", autoCount);
-        if (autoCount == 1) 
+        if (autoCount >= 0 && autoCount <= 225) 
         {
-            SwingArmMotor.getInstance().autoPosition();
+           if (m_robotContainer.m_ae.m_pos >= 90.00) 
+           {
+                SwingArmMotor.getInstance().autoPosition();
+           }
         }
-        if (autoCount >= 300 && autoCount <= returnCount) 
+        if (autoCount >= 225 && autoCount <= returnCount) 
         {
             m_robotContainer.m_Servo.setNewPosition(ServoEnum.OPEN);
         }
-        if (autoCount == returnCount + 25) 
+        if (autoCount >= returnCount && autoCount <= returnCount + 250) 
         {
-            SwingArmMotor.getInstance().teleopReturn();
-            //Enter position control of the Drive Motor:
-            //MotorSubsystem.getInstance().driveToStep(0); // Modification
-            
-            
+            if (m_robotContainer.m_ae.m_pos <= 300.00) 
+            {
+                SwingArmMotor.getInstance().teleopReturn();
+            }
         }
-        if (autoCount >= returnCount + 25 && autoCount <= returnCount + closeTime) 
+        if (autoCount >= returnCount && autoCount <= returnCount + closeTime) 
         {
             m_robotContainer.m_Servo.setNewPosition(ServoEnum.CLOSE);
-            
+        }
+        if (autoCount >= moveCount && autoCount < stopCount)
+        {
+            m_robotContainer.m_DriveSubsystem.setDesiredSwerveState(new SwerveState(0.0, -0.7));
+            //m_robotContainer.m_DriveSubsystem.moveSteps(1);
+        }
+        if (autoCount >= stopCount) 
+        {
+            m_robotContainer.m_DriveSubsystem.setDesiredSwerveState(new SwerveState(0.0, 0.0));
         }
         if (autoCount > returnCount + closeTime)
         {
             m_robotContainer.m_Servo.setNewPosition(ServoEnum.STOP);
-            // Cancel position control of the Drive Motor
-            //MotorSubsystem.getInstance().driveToStep(0); // Modification
         }
         /* */
     }
@@ -150,7 +162,8 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        SwingArmMotor.getInstance().teleopReturn();
+        //SwingArmMotor.getInstance().teleopReturn();
+        m_robotContainer.initializeDriveSubsystem();
     }
 
     /**

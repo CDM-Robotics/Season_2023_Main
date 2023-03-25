@@ -21,15 +21,14 @@ public class SwingArmMotor extends TalonFX {
 
     public static SwingArmMotor getInstance() {
         if (sam == null) {
-            sam = new SwingArmMotor(14 /*, armC*/);
+            sam = new SwingArmMotor(14);
         }
         return sam;
     }
 
-    public SwingArmMotor(int canID /*, ArmController ac*/) 
+    public SwingArmMotor(int canID) 
     {
         super(canID);
-        //armC = ac;
     }
 
     public void initialize() throws SwingMotorException {
@@ -99,27 +98,27 @@ public class SwingArmMotor extends TalonFX {
 
     public void autoPosition() 
     {
-        m_position = 96000;
+        m_position += 200;
         SmartDashboard.putNumber("ArmPosition", m_position);
         super.set(TalonFXControlMode.Position, m_position);
     }
 
     public void teleopReturn() 
     {
-        m_position = 0;
+        m_position -= 200;
         SmartDashboard.putNumber("ArmPosition", m_position);
         super.set(TalonFXControlMode.Position, m_position);
     }
     
     public void fastIncrease() 
     {
-        m_position += 400;
+        m_position += 300;
         SmartDashboard.putNumber("ArmPosition", m_position);
         super.set(TalonFXControlMode.Position, m_position);
     } 
     public void fastDecrease() 
     {
-        m_position -= 400;
+        m_position -= 300;
         SmartDashboard.putNumber("ArmPosition", m_position);
         super.set(TalonFXControlMode.Position, m_position);
     }

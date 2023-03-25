@@ -7,6 +7,7 @@ package frc.robot.devices;
 import javax.xml.stream.events.EndDocument;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.DriveModeEnum;
 import frc.robot.exceptions.MotorSetupException;
 
 /** Add your docs here. */
@@ -23,6 +24,7 @@ public class SwerveAssembly {
     private SwerveEncoder m_driveEncoder;
     private double m_offset;
     private String m_prettyName;
+    private boolean initialized;
 
     public SwerveAssembly(String pretty, int steeringID, boolean steeringInverted, int driveID, boolean driveInverted, int encoderID, double encoderOffset) {
         if(steeringID == 16) 
@@ -42,13 +44,29 @@ public class SwerveAssembly {
         m_offset = encoderOffset;
         m_driveEncoder.setPosition(encoderOffset);
         encoderCtr = 0;
+        initialized = false;
+    }
+
+    public void initializeAuto() throws MotorSetupException 
+    {
+        initialize();
+        m_driveMotor.initialize(DriveModeEnum.POSITION);
+        initialized = true;
+    }
+
+    public void initializeTeleOp() throws MotorSetupException 
+    {
+        if (!initialized)
+        {
+            initialize();
+        }
+        m_driveMotor.initialize(DriveModeEnum.VELOCITY);
     }
 
     public void initialize() throws MotorSetupException {
         double absolutePos;
         m_driveEncoder.initialize();
         m_steeringMotor.initialize();
-        m_driveMotor.initialize();
         absolutePos = m_driveEncoder.getAbsolutePosition();
         SmartDashboard.putNumber("Initial Offset " + m_prettyName, absolutePos);
         m_steeringMotor.setOffset(absolutePos);
@@ -92,5 +110,9 @@ public class SwerveAssembly {
 
     public String getPrettyName() {
         return m_prettyName;
+    }
+
+    public void driveSteps(int revolutions) {
+        m_driveMotor.setPosition(revolutions);
     }
 }

@@ -39,6 +39,34 @@ public class DriveSubsystem extends SubsystemBase {
 
     }
 
+    public void setTeleOp() {
+        try {
+            Iterator<SwerveAssembly> iter = m_assemblies.values().iterator();
+
+            SwerveAssembly sa;
+            while(iter.hasNext()) {
+                sa = iter.next();
+                sa.initializeTeleOp();
+            }
+        } catch(MotorSetupException mse) {
+            System.out.println(mse.getMessage());
+        }
+    }
+
+    public void setAuto() {
+        try {
+            Iterator<SwerveAssembly> iter = m_assemblies.values().iterator();
+
+            SwerveAssembly sa;
+            while(iter.hasNext()) {
+                sa = iter.next();
+                sa.initializeAuto();
+            }
+        } catch(MotorSetupException mse) {
+            System.out.println(mse.getMessage());
+        }
+    }
+
     public Boolean initialize() {
         try {
             Iterator<SwerveAssembly> iter = m_assemblies.values().iterator();
@@ -91,4 +119,16 @@ public class DriveSubsystem extends SubsystemBase {
     {
         return true;
     }
+
+    public void moveSteps(int revolutions) 
+    {
+        Iterator<SwerveAssembly> iter = m_assemblies.values().iterator();
+
+            SwerveAssembly sa;
+            while(iter.hasNext()) {
+                sa = iter.next();
+                sa.driveSteps(revolutions);
+            }
+    }
+
 }
