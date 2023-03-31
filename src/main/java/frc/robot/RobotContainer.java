@@ -85,6 +85,7 @@ public class RobotContainer {
 
         SmartDashboard.setDefaultNumber("CMD", 0.0);
         SmartDashboard.setDefaultNumber("STAT", 0.0);
+        SmartDashboard.setDefaultNumber("AutoDriveCount", 685);
 
         // Define the 4 Swerve Assemblies
         rearRight = new SwerveAssembly("Rear Right", 18, false, 17, false, 26,-60.9);

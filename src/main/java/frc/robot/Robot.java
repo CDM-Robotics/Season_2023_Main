@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
     private int autoCount;
+    private int autoDriveCount;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -54,6 +55,8 @@ public class Robot extends TimedRobot {
         //m_robotContainer.initializeMotorSubsystem();
         //m_robotContainer.initializeDriveSubsystem();
         autoCount = 0;
+        autoDriveCount = 685;
+        SmartDashboard.putNumber("Balance Count", 485);
         SwingArmMotor.getInstance();
         
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
@@ -93,6 +96,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+        autoDriveCount = (int)Math.round(SmartDashboard.getNumber("AutoDriveCount", 685));
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
@@ -107,11 +111,11 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() 
     {
-        /* */
         int returnCount = 300;
         int closeTime = 150;
         int moveCount = 301;
-        int stopCount = 685;
+        //int taxiCount = 685;
+        //int balanceCount = 555;
         autoCount++;
 
         SmartDashboard.putNumber("Auto Counter", autoCount);
@@ -137,12 +141,12 @@ public class Robot extends TimedRobot {
         {
             m_robotContainer.m_Servo.setNewPosition(ServoEnum.CLOSE);
         }
-        if (autoCount >= moveCount && autoCount < stopCount)
+        if (autoCount >= moveCount && autoCount < autoDriveCount /*balanceCount*/ /*taxiCount*/)
         {
             m_robotContainer.m_DriveSubsystem.setDesiredSwerveState(new SwerveState(0.0, -0.7));
             //m_robotContainer.m_DriveSubsystem.moveSteps(1);
         }
-        if (autoCount >= stopCount) 
+        if (autoCount >= autoDriveCount /*balanceCount*/ /*taxiCount*/) 
         {
             m_robotContainer.m_DriveSubsystem.setDesiredSwerveState(new SwerveState(0.0, 0.0));
         }
@@ -150,7 +154,6 @@ public class Robot extends TimedRobot {
         {
             m_robotContainer.m_Servo.setNewPosition(ServoEnum.STOP);
         }
-        /* */
     }
 
     @Override
