@@ -57,6 +57,9 @@ public class Robot extends TimedRobot {
         autoCount = 0;
         autoDriveCount = 685;
         SmartDashboard.putNumber("Balance Count", 485);
+        SmartDashboard.putNumber("Short Count", 515);
+        SmartDashboard.putNumber("Long Count", 685);
+        SmartDashboard.putNumber("Stop Count", 301);
         SwingArmMotor.getInstance();
         
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);

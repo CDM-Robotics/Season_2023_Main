@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.Faults;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 
@@ -80,6 +81,7 @@ public class SteeringMotor extends TalonFX {
             throw new MotorSetupException(errorMsg + "Could not set kP");
         }  
 
+        setNeutralMode(NeutralMode.Brake);
         configClosedloopRamp(0.02);
         //overrideSoftLimitsEnable(true);
         //overrideLimitSwitchesEnable(true);
