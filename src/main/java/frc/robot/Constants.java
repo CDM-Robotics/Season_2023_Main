@@ -31,5 +31,6 @@ public class Constants {
     public static final int MAX_TALON_CMD_RATE_MSEC = 10;
     public static final double MARGIN_OF_SAFETY = 1.1;
     public static final double MAX_VELOCITY = 3.0; // meters per second
+    public static boolean simulation;
 }
 

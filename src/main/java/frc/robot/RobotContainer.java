@@ -79,12 +79,6 @@ public class RobotContainer {
         m_ClawController.setDefaultCommand(m_CCC);
         m_Servo.intialize();
 
-        SmartDashboard.setDefaultNumber("Velocity: config_kP", .2);
-        SmartDashboard.setDefaultNumber("Velocity: config_kI", 0.001);
-        SmartDashboard.setDefaultNumber("Velocity: config_kD", 5);
-
-        SmartDashboard.setDefaultNumber("CMD", 0.0);
-        SmartDashboard.setDefaultNumber("STAT", 0.0);
         SmartDashboard.setDefaultNumber("AutoDriveCount", 685);
 
         // Define the 4 Swerve Assemblies

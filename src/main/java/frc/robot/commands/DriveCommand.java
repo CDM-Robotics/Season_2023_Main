@@ -53,31 +53,19 @@ public class DriveCommand extends CommandBase {
       return;
     }
     if((currTime - m_lastUpdate) >= MOTOR_UPDATE_FREQUENCY) {
-      //SmartDashboard.putNumber("momentum estimate",m_driveSubsystem.m_physics.totalLinearMomentum);
-      //  if(((m_driveSubsystem.m_physics.getCurrentSwerveState().velocity > 0.95 * m_dc.getDesiredThrottle()) && 
-      //      (m_driveSubsystem.m_physics.getCurrentSwerveState().velocity < 1.05 * m_dc.getDesiredThrottle())) ||
-      //     (m_driveSubsystem.m_physics.getCurrentSwerveState().velocity == 0.0)) {
-            //simMovement = new SwerveState(i*1.0, 1.0);
-            //i = i - 45;
-            //if(i < -180) i = -180 - (-180 - i);
-            angle = m_dc.getDesiredAngle();
-            throttle = m_dc.getDesiredThrottle() * 0.3 * m_dc.getSpeedModifier();
-            SmartDashboard.putNumber("DesiredThrottle", throttle);
-            //throttle = 0.1;
-            simMovement = new SwerveState(angle, throttle);
-            SmartDashboard.putNumber("Desired Angle", angle);
-      //     }
+      angle = m_dc.getDesiredAngle();
+      throttle = m_dc.getDesiredThrottle() * 0.3 * m_dc.getSpeedModifier();
+      SmartDashboard.putNumber("DesiredThrottle", throttle);
+      simMovement = new SwerveState(angle, throttle);
+      SmartDashboard.putNumber("Desired Angle", angle);
       
       if(m_dc.allowedToRotate()) {
         m_driveSubsystem.setRotation(m_dc.getRotation(), 0.3 * m_dc.getSpeedModifier());
       } else {
         m_driveSubsystem.setDesiredSwerveState(simMovement);
       }
-        m_lastUpdate = currTime;
-        //averageSkips = (currTime - m_lastUpdate) / skips;
-        //skips=0.0; // Reset
-    } else {
-        //skips = skips + 1.0;
+      
+      m_lastUpdate = currTime;
     }
   }
 

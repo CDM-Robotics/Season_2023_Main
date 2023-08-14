@@ -10,6 +10,8 @@ import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
+import frc.robot.Constants;
+
 /** Add your docs here. */
 public class SwerveEncoder extends CANCoder {
     private int myID;
@@ -27,6 +29,10 @@ public class SwerveEncoder extends CANCoder {
         config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
         config.magnetOffsetDegrees = m_offset;
         super.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10);
+
+        if(Constants.simulation) {
+            this.getSimCollection().setRawPosition(0);
+        }
 
         configAllSettings(config);
         

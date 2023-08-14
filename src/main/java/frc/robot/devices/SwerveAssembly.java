@@ -108,11 +108,23 @@ public class SwerveAssembly {
         return new SwerveState(angle, velocity);
     }
 
+    public double getDriveAngle() {
+        return m_driveEncoder.getPosition(); // TODO - Don't know if this is relative to the magnet offset or what, need to test
+    }
+
     public String getPrettyName() {
         return m_prettyName;
     }
 
     public void driveSteps(int revolutions) {
         m_driveMotor.setPosition(revolutions);
+    }
+
+    public int getNumWraps() {
+        return m_steeringMotor.m_numWraps;
+    }
+
+    public void resetNumWraps(int w) {
+        m_steeringMotor.m_numWraps = w;
     }
 }

@@ -20,16 +20,19 @@ public class DriveSubsystem extends SubsystemBase {
     
     private HashMap<String, SwerveAssembly> m_assemblies;
     public DrivePhysics m_physics;
+    private int numWrapCorrections;
     
 
     public DriveSubsystem(HashMap<String, SwerveAssembly> assemblies, DrivePhysics physics) {
         m_assemblies = assemblies;
         m_physics = physics;
+        numWrapCorrections = 0;
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        
 
     }
 
@@ -85,10 +88,54 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void setDesiredSwerveState(SwerveState state) {
+        boolean pointed = true;
+        SwerveAssembly s;
+        double a;
+        int wraps;
+        boolean counted = false;
+
         SwerveState allowed = m_physics.askPermissionToMove(state);
 
-        SwerveAssembly s;
+        // Check the current state, if we have zero momentum, then we're not moving and we want to point
+        // the wheels in the correct direction before throttling
+        // Double-check if the wheels lost calibration
         Iterator<SwerveAssembly> iter = m_assemblies.values().iterator();
+
+        iter = m_assemblies.values().iterator();
+
+        if(Math.abs(m_physics.totalLinearMomentum) < 0.1) {
+            if(iter.hasNext()) {
+                s = iter.next();
+                wraps = s.getNumWraps();
+                while(iter.hasNext()) {
+                    s = iter.next();
+                    if(wraps != s.getNumWraps()) {
+                        if(!counted) {
+                            numWrapCorrections++;
+                            counted = true;
+                            SmartDashboard.putNumber("Num Wrap Corrections", 1.0 * numWrapCorrections);
+                        }
+                    }
+                    s.resetNumWraps(wraps);
+                }
+            }
+
+            allowed.velocity = 0.0;
+
+            //while(iter.hasNext()) {
+            //    s = iter.next();
+                //a = s.getDriveAngle();
+                //if(Math.abs(a - allowed.angle) > 5.0) {
+                //    pointed = false;
+           //         allowed.velocity = 0.0;
+                //    break;
+                //}
+           // }
+        }
+
+        //  Now let's set the desired state
+        iter = m_assemblies.values().iterator();
+        
         while(iter.hasNext()) {
             s = iter.next();
             s.setState(allowed);

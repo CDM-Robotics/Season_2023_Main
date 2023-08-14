@@ -32,7 +32,7 @@ public class SwingArmMotor extends TalonFX {
     }
 
     public void initialize() throws SwingMotorException {
-        String errorMsg = "(CAN ID: " + this.getDeviceID() + ") ";
+        String errorMsg = "";
         
         if(ErrorCode.OK != configFactoryDefault()) {
             throw new SwingMotorException(errorMsg + "Could not set factory defaults");

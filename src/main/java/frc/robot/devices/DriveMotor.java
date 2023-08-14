@@ -25,6 +25,7 @@ public class DriveMotor extends TalonFX {
     private double simValue;
     private final double UNITS_PER_REV = 2048.0;
     private boolean m_sim;
+    private int myID;
 
     public DriveMotor(int canID, double gearRatio, double wheelDiameterInches, boolean simulate) {
         super(canID);
@@ -33,10 +34,11 @@ public class DriveMotor extends TalonFX {
         m_revDistanceInches = Math.PI * m_wheelDiameterInches;
         simValue = 0.0;
         m_sim = simulate;
+        myID = canID;
     }
 
     public void initialize(DriveModeEnum mode) throws MotorSetupException {
-        String errorMsg = "(CAN ID: " + this.getDeviceID() + ") ";
+        String errorMsg = "(CAN ID: " + myID + ") ";
         
         if(m_sim) return;
 

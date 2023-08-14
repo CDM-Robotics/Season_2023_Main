@@ -16,7 +16,7 @@ public class DriveController extends SubsystemBase {
 
     public DriveController() {
         xbox = new XboxController(0);
-        speedModifier = 1.0;
+        //speedModifier = 1.0;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class DriveController extends SubsystemBase {
             desiredThrottle = 0.0;
             // For now, only allow rotations when the desired throttle is zero
             if(!wantToRotate) {
-                //desiredAngle = 0.0;
+                desiredAngle = 0.0;
                 return;
             } else {
                 // Allow a pure rotation

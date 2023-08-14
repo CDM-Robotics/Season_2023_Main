@@ -19,7 +19,7 @@ public class SteeringMotor extends TalonFX {
     private double m_gearRatio;
     private final double UNITS_PER_REV = 2048.0;
     private double simValue;
-    private int m_numWraps;
+    public int m_numWraps;
     private double m_currentSensorPos;
     private double m_currentAngle;
     private double m_memorizedCommandAngle;
@@ -37,7 +37,7 @@ public class SteeringMotor extends TalonFX {
     }
 
     public void initialize() throws MotorSetupException {
-        String errorMsg = "(CAN ID: " + this.getDeviceID() + ") ";
+        String errorMsg = "(CAN ID: " + this.myID + ") ";
 
         if(m_sim) return;
 
@@ -83,6 +83,13 @@ public class SteeringMotor extends TalonFX {
 
         setNeutralMode(NeutralMode.Brake);
         configClosedloopRamp(0.02);
+
+        if(myID == 13) {
+          configIntegratedSensorOffset(0);
+        }
+
+        configClearPositionOnLimitF(true, 30);
+        configClearPositionOnLimitR(true,30);
         //overrideSoftLimitsEnable(true);
         //overrideLimitSwitchesEnable(true);
     }
@@ -140,26 +147,14 @@ public class SteeringMotor extends TalonFX {
         // 1 revolution is 2048, but +/- 180 equals +- 1024, so divide by two
         gearedSteps = steps * m_gearRatio;
 
-        if(myID == 16) {
-            SmartDashboard.putNumber("gearedSteps", gearedSteps);
-            SmartDashboard.putNumber("position", getSelectedSensorPosition());
-            SmartDashboard.putNumber("numwraps", m_numWraps);
-            this.getFaults(faults);
-            if(faults.hasAnyFault()) {
-                SmartDashboard.putString("faults", faults.toString());
-            }  else {
-                SmartDashboard.putString("faults", "none");
-            }
-        }
+        SmartDashboard.putNumber("Desired Steps (" + this.myID + ")", gearedSteps);
+        SmartDashboard.putNumber("Actual Steps (" + this.myID + ")", this.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Num Wraps (" + this.myID + ")", this.m_numWraps);
 
         if(RobotBase.isSimulation()|| m_sim) {
             simValue = degrees;
         } else {
             super.set(TalonFXControlMode.Position, gearedSteps);
-        }
-
-        if(!m_sim) {
-            SmartDashboard.putNumber("CMD", degrees);
         }
 
         m_memorizedCommandAngle = degrees;
