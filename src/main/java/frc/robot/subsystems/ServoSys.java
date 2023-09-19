@@ -38,7 +38,6 @@ public class ServoSys extends SubsystemBase
 		{
 			//testPWM.setBounds(1.525, 0.004, 1.5, 0.004, 1.475);
 			testCANSpark.set(0.0);
-			//testCANSpark.stopMotor();
 		}
 		if (newPosition == ServoEnum.CLOSE) 
 		{
