@@ -45,8 +45,6 @@ public class ServoSys extends SubsystemBase
 			//testPWM.setBounds(2.50, 0.004, 2.475, 0.004, 2.45);
 			testCANSpark.set(-0.55);
 		}
-		//testPWM.setPosition(1);
-		//testCANSpark.set(0);
 	}
 	public void thermalSafety() 
 	{
