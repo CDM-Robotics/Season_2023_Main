@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClawController;
 import frc.robot.subsystems.ServoSys;
@@ -33,6 +34,8 @@ public class ClawControllerCommand extends CommandBase {
     {
     mySys.setNewPosition(myController.getCurrentPos());
     }
+    
+    //SmartDashboard.putNumber("Claw Position", mySys.getPosition());
   }
 
   // Called once the command ends or is interrupted.

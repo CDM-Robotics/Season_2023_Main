@@ -57,10 +57,10 @@ public class Robot extends TimedRobot {
         //m_robotContainer.initializeDriveSubsystem();
         autoCount = 0;
         autoDriveCount = 685;
-        SmartDashboard.putNumber("Balance Count", 485);
+        SmartDashboard.putNumber("Balance Count", 485); 
         SmartDashboard.putNumber("Short Count", 515);
         SmartDashboard.putNumber("Long Count", 685);
-        SmartDashboard.putNumber("Stop Count", 301);
+        SmartDashboard.putNumber("Stop Count", 301); // Change to MoveCount
         SwingArmMotor.getInstance();
         
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
@@ -115,11 +115,11 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() 
     {
-        int returnCount = 300;
-        int closeTime = 150;
-        int moveCount = 301;
-        //int taxiCount = 685;
-        //int balanceCount = 555;
+        int returnCount = 300; // Update Value (250?)
+        int closeTime = 150; // Update Value
+        int moveCount = 301; // Update Value (251?)
+        //int taxiCount = 685; // Already On Dashboard
+        //int balanceCount = 555; // Already On Dashboard (485?)
         autoCount++;
 
         SmartDashboard.putNumber("Auto Counter", autoCount);
