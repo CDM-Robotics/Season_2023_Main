@@ -25,7 +25,7 @@ public class ArmSubsystem extends SubsystemBase{
 	{
 		if (newVelocity == ArmEnum.PICKUP) 
 		{
-			if (m_ArmEncoder.getPos() >= 5.0) 
+			if (m_ArmEncoder.getPos() <= 5.0) 
 			{
 				m_SwingArmMotor.increasePosition();
 			}
@@ -43,7 +43,7 @@ public class ArmSubsystem extends SubsystemBase{
 		
 		if (newVelocity == ArmEnum.STOW) 
 		{
-			if (m_ArmEncoder.getPos() <= 300.0) 
+			if (m_ArmEncoder.getPos() >= 300.0) 
 			{
 				m_SwingArmMotor.decreasePosition();
 			}
