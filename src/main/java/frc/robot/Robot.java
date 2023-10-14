@@ -20,6 +20,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.platform.can.AutocacheState;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,6 +43,11 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
     private int autoCount;
     private int autoDriveCount;
+    private boolean isFinished;
+    private int lastSavedStateCount;
+    private boolean autoDrive;
+    private boolean resetAutoCount;
+    private boolean returnArm;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -56,11 +62,17 @@ public class Robot extends TimedRobot {
         //m_robotContainer.initializeMotorSubsystem();
         //m_robotContainer.initializeDriveSubsystem();
         autoCount = 0;
-        autoDriveCount = 685;
+        autoDriveCount = 515;
+        lastSavedStateCount = 0;
+        isFinished = false;
+        autoDrive = false;
+        resetAutoCount = true;
         SmartDashboard.putNumber("Balance Count", 485); 
         SmartDashboard.putNumber("Short Count", 515);
         SmartDashboard.putNumber("Long Count", 685);
         SmartDashboard.putNumber("Stop Count", 301); // Change to MoveCount
+        SmartDashboard.putNumber("AutoDriveCount", autoDriveCount);
+        SmartDashboard.putBoolean("Auto Return Arm", true);
         SwingArmMotor.getInstance();
         
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
@@ -99,6 +111,7 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousInit() {
+        returnArm = SmartDashboard.getBoolean("Auto Return Arm", true);
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
         autoDriveCount = (int)Math.round(SmartDashboard.getNumber("AutoDriveCount", 685));
 
@@ -115,48 +128,61 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() 
     {
-        int returnCount = 300; // Update Value (250?)
-        int closeTime = 150; // Update Value
-        int moveCount = 301; // Update Value (251?)
+        
+        int returnCount = 300; 
+        int closeTime = 150; 
+        int moveCount = 301;
         //int taxiCount = 685; // Already On Dashboard
-        //int balanceCount = 555; // Already On Dashboard (485?)
+        //int balanceCount = 555; // Already On Dashboard
         autoCount++;
+        if(autoCount < 10) {
+            return;
+        }
 
         SmartDashboard.putNumber("Auto Counter", autoCount);
-        if (autoCount >= 0 && autoCount <= 225) 
+        if ((!isFinished) /*&& (autoCount >= 0 && autoCount <= 225*)*/) 
         {
+
            if (m_robotContainer.m_ae.m_pos >= 90.00) 
            {
                 SwingArmMotor.getInstance().autoPosition();
+                SmartDashboard.putBoolean("isFinished", isFinished);
+           } else {
+                isFinished = true;
+                lastSavedStateCount = autoCount;
+                SmartDashboard.putNumber("lastSavedStateCount", lastSavedStateCount);
            }
+            return;
         }
-        if (autoCount >= 225 && autoCount <= returnCount) 
+        //if (autoCount >= 225 && autoCount <= returnCount ) 
+
+        if((!autoDrive) && (autoCount<= lastSavedStateCount + 20))
         {
             m_robotContainer.m_Servo.setNewPosition(ServoEnum.OPEN);
+            return;
+        } 
+
+
+        autoDrive = true;
+        if(resetAutoCount) {
+            resetAutoCount = false;
+            autoCount = 301;
         }
-        if (autoCount >= returnCount && autoCount <= returnCount + 250) 
-        {
-            if (m_robotContainer.m_ae.m_pos <= 300.00) 
-            {
+        
+        
+        if(m_robotContainer.m_ae.m_pos <= 300.0 && DriverStation.isAutonomous()) {
+            if(returnArm) {
                 SwingArmMotor.getInstance().teleopReturn();
             }
-        }
-        if (autoCount >= returnCount && autoCount <= returnCount + closeTime) 
-        {
-            m_robotContainer.m_Servo.setNewPosition(ServoEnum.CLOSE);
-        }
-        if (autoCount >= moveCount && autoCount < autoDriveCount /*balanceCount*/ /*taxiCount*/)
+        } 
+        
+        if (autoCount < autoDriveCount)
         {
             m_robotContainer.m_DriveSubsystem.setDesiredSwerveState(new SwerveState(0.0, -0.7));
-            //m_robotContainer.m_DriveSubsystem.moveSteps(1);
         }
-        if (autoCount >= autoDriveCount /*balanceCount*/ /*taxiCount*/) 
+        if (autoCount >= autoDriveCount) 
         {
-            m_robotContainer.m_DriveSubsystem.setDesiredSwerveState(new SwerveState(0.0, 0.0));
-        }
-        if (autoCount > returnCount + closeTime)
-        {
-            m_robotContainer.m_Servo.setNewPosition(ServoEnum.STOP);
+            m_robotContainer.m_DriveSubsystem.setDesiredSwerveState(new SwerveState(0.0, 0));
         }
     }
 

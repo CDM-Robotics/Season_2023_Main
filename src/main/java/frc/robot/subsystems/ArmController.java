@@ -15,19 +15,19 @@ public class ArmController extends SubsystemBase {
     {
         if (xbox.getRightBumper()) 
         {
-            return ArmEnum.PICKUP;
+            return ArmEnum.FASTPICKUP;
         } 
         if (xbox.getLeftBumper()) 
         {
-            return ArmEnum.STOW;
+            return ArmEnum.FASTSTOW;
         }
         if (xbox.getYButton()) 
         {
-            return ArmEnum.FASTPICKUP;
+            return ArmEnum.PICKUP; 
         }
         if (xbox.getAButton())
         {
-            return ArmEnum.FASTSTOW;
+            return ArmEnum.STOW;
         }
         return ArmEnum.STOP;
     }

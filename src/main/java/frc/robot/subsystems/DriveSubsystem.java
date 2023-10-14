@@ -103,7 +103,14 @@ public class DriveSubsystem extends SubsystemBase {
 
         iter = m_assemblies.values().iterator();
 
-        if(Math.abs(m_physics.totalLinearMomentum) < 0.1) {
+        while(iter.hasNext()) {
+            s = iter.next();
+            s.setState(allowed);
+        }
+
+        return;
+
+        /*if(Math.abs(m_physics.totalLinearMomentum) < 0.1) {
             if(iter.hasNext()) {
                 s = iter.next();
                 wraps = s.getNumWraps();
@@ -120,7 +127,7 @@ public class DriveSubsystem extends SubsystemBase {
                 }
             }
 
-            allowed.velocity = 0.0;
+            allowed.velocity = 0.0; */
 
             //while(iter.hasNext()) {
             //    s = iter.next();
@@ -131,7 +138,7 @@ public class DriveSubsystem extends SubsystemBase {
                 //    break;
                 //}
            // }
-        }
+        /*}
 
         //  Now let's set the desired state
         iter = m_assemblies.values().iterator();
@@ -139,7 +146,7 @@ public class DriveSubsystem extends SubsystemBase {
         while(iter.hasNext()) {
             s = iter.next();
             s.setState(allowed);
-        }
+        }*/
     }
 
     public void setRotation(double rotation, double rotationSpeed) {

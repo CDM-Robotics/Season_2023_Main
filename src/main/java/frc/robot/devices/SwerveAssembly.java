@@ -49,9 +49,11 @@ public class SwerveAssembly {
 
     public void initializeAuto() throws MotorSetupException 
     {
-        initialize();
-        m_driveMotor.initialize(DriveModeEnum.POSITION);
-        initialized = true;
+        if(!initialized) {
+            initialize();
+            m_driveMotor.initialize(DriveModeEnum.VELOCITY);
+            initialized = true;
+        }
     }
 
     public void initializeTeleOp() throws MotorSetupException 
