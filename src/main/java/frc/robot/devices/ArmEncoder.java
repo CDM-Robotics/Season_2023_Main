@@ -35,6 +35,10 @@ public class ArmEncoder extends CANCoder {
     
     public void updatePos() {
         m_pos = getAbsolutePosition();
+        if (m_pos < 0) 
+        {
+            m_pos += 360;
+        }
         SmartDashboard.putNumber("Arm Encoder", m_pos);
     }
 

@@ -13,6 +13,7 @@ public class NavX {
     public void init() {
         try {
             ahrs = new AHRS(SPI.Port.kOnboardCS0);
+            //ahrs.reset();
             ahrs.zeroYaw();
             offset = ahrs.getYaw();
         } catch(Exception e) {
@@ -21,6 +22,7 @@ public class NavX {
     }
 
     public double getFieldAngle() {
-        return ahrs.getYaw() - offset;
+        return ahrs.getAngle();
+        //return ahrs.getYaw() - offset;
     }
 }

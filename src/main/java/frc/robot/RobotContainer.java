@@ -58,6 +58,9 @@ public class RobotContainer {
   private UpdateSwerveStateCommand m_updateSwerveCommand;
   private DriveCommand m_DriveCommand;
   private HashMap<String, SwerveAssembly> swerves;
+  private NavX navx;
+  private NavSubsystem navSubsystem;
+  private NavCommand navCommand;
 
   private RobotContainer() {
 
@@ -104,6 +107,12 @@ public class RobotContainer {
 
         m_DriveCommand = new DriveCommand(m_DriveController, m_DriveSubsystem);
         m_DriveController.setDefaultCommand(m_DriveCommand);
+
+        // Please don't crash
+        /*navx = new NavX();
+        navSubsystem = new NavSubsystem(navx);
+        navCommand = new NavCommand(navSubsystem);
+        navSubsystem.setDefaultCommand(navCommand);*/
 
   }
 

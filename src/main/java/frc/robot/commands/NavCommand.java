@@ -15,8 +15,8 @@ public class NavCommand extends CommandBase {
 
     @Override
     public void execute() {
-        
-        SmartDashboard.putNumber("Field Angle", m_NavSubsystem.getFieldAngle());
+        m_NavSubsystem.update();
+        SmartDashboard.putNumber("Field Angle", NavSubsystem.getFieldAngle());
     }
 
     @Override

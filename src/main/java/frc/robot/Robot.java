@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
         isFinished = false;
         autoDrive = false;
         resetAutoCount = true;
-        SmartDashboard.putNumber("Balance Count", 485); 
+        SmartDashboard.putNumber("Balance Count", 490); 
         SmartDashboard.putNumber("Short Count", 515);
         SmartDashboard.putNumber("Long Count", 685);
         SmartDashboard.putNumber("Stop Count", 301); // Change to MoveCount
@@ -156,7 +156,7 @@ public class Robot extends TimedRobot {
         }
         //if (autoCount >= 225 && autoCount <= returnCount ) 
 
-        if((!autoDrive) && (autoCount<= lastSavedStateCount + 20))
+        if((!autoDrive) && (autoCount<= lastSavedStateCount + 40)) // Try + 40
         {
             m_robotContainer.m_Servo.setNewPosition(ServoEnum.OPEN);
             return;
@@ -170,7 +170,7 @@ public class Robot extends TimedRobot {
         }
         
         
-        if(m_robotContainer.m_ae.m_pos <= 300.0 && DriverStation.isAutonomous()) {
+        if(m_robotContainer.m_ae.m_pos <= 295.0 && DriverStation.isAutonomous()) {
             if(returnArm) {
                 SwingArmMotor.getInstance().teleopReturn();
             }
